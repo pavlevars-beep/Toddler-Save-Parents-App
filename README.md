@@ -1,160 +1,144 @@
-# 🌸 Calm Little Learning World
+# Livada 🌿
 
-A gentle, parent-controlled web app for toddlers aged 18 months – 3 years.
-Designed to keep a child calmly engaged for a short, intentional session (5–20 min)
-while parents eat, rest, or need a quiet moment.
+**Mirna igra za male ruke.** Aplikacija za decu od 1,5 do 3 godine — bez reklama,
+bez naloga, bez interneta i bez prestimulacije.
+
+Inspirisana je idejom "telefon za bebe" (Billy Bo i slične), ali ide u drugom
+pravcu: umesto jarkih boja, brzih animacija i stalnih nagrada, sve ovde je
+usporeno, utišano i svedeno na jednu jasnu poruku — *ti si dodirnuo, i nešto se
+desilo.*
 
 ---
 
-## Quick Start
+## Šta dete može da radi
+
+| Ekran | Šta se dešava |
+| --- | --- |
+| **Telefon** | Bira jednu od osam životinja, čuje zvono, i životinja se javi. Dodir na lik → odgovori ponovo. Veliko dugme „Gotovo" prekida poziv. |
+| **Poruke** | Piše životinjama sličicama (srce, sunce, lopta, jabuka…). Svaka poslata sličica dobije odgovor koji ima smisla: kiša → sunce, jabuka → kolač, ruka → srce. |
+| **Moj glas** | Jedan ogroman krug. Dodir → snima do 5 sekundi (prsten se puni, oreol pulsira na glas deteta) → odmah se pušta **pištavo**. Tri dugmeta za ponavljanje: pištavo, normalno, duboko. |
+| **Dugmići** | Šest velikih dugmadi i šest različitih odgovora: zvono zazvoni, svetlo osvetli ceo ekran, balon odleti, bubanj tupne, voda kapne, zvezda zasvetluca. Nijedno se ne ponaša isto. |
+| **Skrivalice** | Četiri brežuljka. Dodir → drug iskoči, pozdravi se, pa se sam sakrije. Ne postoji pogrešan brežuljak. |
+
+## Kako je pravljeno da ne prestimuliše
+
+- **Prigušena paleta.** Nema čiste bele, čiste crne ni zasićenih „igračkastih"
+  boja. Ništa ne blinka i ništa ne svetli.
+- **Zvuk se sintetiše, ne pušta iz snimaka.** Svaki ton ima mek napad i mek
+  kraj, a ceo audio prolazi kroz limiter — ne postoji način da nešto iznenada
+  prasne u uho detetu koje drži tablet uz lice.
+- **Jedna radnja → jedan odgovor.** Nema bodova, nema tajmera koji juri, nema
+  gubljenja, nema ekrana sa kojeg se ne može nazad.
+- **Sporo.** Animacije traju 300–700 ms i imaju razlog. „Još mirnije" u
+  roditeljskom delu usporava sve dodatno i stišava zvuk.
+- **Poštuje se `prefers-reduced-motion`** sa nivoa operativnog sistema.
+- **Velike mete.** Ništa što dete treba da pogodi nije manje od ~104 px.
+
+## Za roditelje
+
+Roditeljski deo se otvara **držanjem lista u gornjem desnom uglu 2 sekunde**.
+Dete tapka — ne drži prst mirno dve sekunde — pa ovo funkcioniše kao brava bez
+PIN-a koji se zaboravlja.
+
+Unutra: jačina zvuka, govor uključen/isključen, „još mirnije", podsetnik za
+pauzu (isključen / 10 / 20 / 30 min), jezik (srpski / English) i dugme za
+instalaciju na početni ekran.
+
+Podsetnik za pauzu ne odbrojava pred detetom: igra se jednostavno zaustavi na
+tihoj slici, a nastavlja je samo odrasla osoba držanjem prsta.
+
+### Privatnost
+
+Nema reklama, nema naloga, nema analitike, nema mrežnih poziva. Snimak glasa
+postoji **samo u memoriji uređaja** dok traje igra i briše se čim se izađe sa
+ekrana „Moj glas" — nikada ne postaje fajl i nikuda se ne šalje. Jedino što se
+čuva je `localStorage` zapis sa roditeljskim podešavanjima.
+
+---
+
+## Pokretanje
 
 ```bash
 npm install
-npm run dev
+npm run dev        # razvojni server
+npm run build      # produkcijski build u dist/
+npm run preview    # posluži build lokalno (--host za telefon na istoj mreži)
+npm run typecheck
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser or on your phone/tablet.
+Zahteva Node 18+.
 
----
+## Kao aplikacija
 
-## Features
+Livada je PWA: `manifest.webmanifest`, service worker koji kešira sve što je
+jednom učitano, `display: fullscreen`, wake lock (ekran se ne gasi), i
+zaključan zoom i scroll.
 
-### Four Mini-Activities
+**Na telefonu/tabletu:** otvoriti build i izabrati „Dodaj na početni ekran"
+(dugme postoji i u roditeljskom delu na Androidu/Chromeu). Posle toga radi i u
+avionskom režimu.
 
-| Activity | What the child does |
-|---|---|
-| 🐱 **Animal Sounds** | Tap an animal to hear its sound. Swipe left/right to see more animals. |
-| 🎨 **Color Matching** | Find the matching color shape. Calm glow when correct. |
-| 🔍 **Big & Small** | Tap the big one or the small one. New object pairs appear automatically. |
-| 🌸 **Picture Explorer** | Tap objects in a peaceful scene. Each object says its name. |
+**Kao nativna aplikacija (Google Play / App Store)** — `base: './'` u
+`vite.config.ts` znači da build radi i iz WebView-a bez ijedne izmene:
 
-### Parent Panel
-
-Accessible from:
-- The **⚙️ Parent Settings** button on the home screen
-- A **long press (1.8 s) on the timer** in the top bar during a session
-
-Parent controls:
-- Session length: 5 / 10 / 15 / 20 minutes
-- Sound on / off
-- Activity mode: Mixed, Animals, Colors, Big & Small, Explorer
-- Calm ending screen (recommended)
-- 🍽 **Restaurant mode** — extra quiet visuals, no sound, no bright flashes
-
-### Session End Screen
-
-After the session timer runs out, a gentle "All done!" screen appears with a
-suggestion for a real-world activity (e.g. "Give your toy a big hug!",
-"Find something red in the room!").
-
----
-
-## Design Philosophy
-
-This app was built around three principles:
-
-**1. Calm over engagement**
-Every design decision prioritises the child's emotional state over screen-time
-metrics. There are no streaks, levels, coins, scores, or reward loops.
-Transitions are slow and soft. Colors are pastel. Sounds are quiet.
-
-**2. Parent control, not algorithm control**
-Sessions have a fixed length chosen by a parent. The app doesn't try to extend
-the session or suggest "one more activity." When time is up, it gently says
-goodbye.
-
-**3. Real-world bridge**
-The session-end screen always suggests a physical, offline activity — looking
-around the room, hugging a toy, waving goodbye. The app is a bridge to the
-real world, not a replacement for it.
-
----
-
-## Adding Real Animal Sounds
-
-The app uses synthesized Web Audio API tones as placeholders.
-To replace them with real recordings:
-
-1. Place audio files in `/public/sounds/` — e.g. `cat.mp3`, `dog.mp3`, etc.
-2. Open `src/utils/sounds.ts`
-3. Replace the individual `play*Sound()` functions with:
-
-```ts
-// Example for cat:
-function playCatSound() {
-  const audio = new Audio('/sounds/cat.mp3');
-  audio.volume = 0.5;
-  audio.play().catch(() => {}); // catch autoplay policy errors gracefully
-}
+```bash
+npm i -D @capacitor/cli
+npm i @capacitor/core @capacitor/android @capacitor/ios
+npx cap init Livada rs.livada.app --web-dir=dist
+npm run build && npx cap add android && npx cap sync
+npx cap open android
 ```
 
-Free, license-clear animal sounds: **freesound.org** (check individual licenses).
+Za nativni build treba dodati dozvolu za mikrofon: `RECORD_AUDIO` u
+`AndroidManifest.xml`, odnosno `NSMicrophoneUsageDescription` u `Info.plist`.
 
 ---
 
-## Folder Structure
+## Struktura
 
 ```
 src/
-├── components/
-│   ├── activities/        # The four mini-activities
-│   │   ├── AnimalSounds.tsx
-│   │   ├── ColorMatching.tsx
-│   │   ├── BigSmall.tsx
-│   │   └── PictureExplorer.tsx
-│   ├── animals/
-│   │   └── AnimalSVGs.tsx  # Hand-drawn SVG animals
-│   ├── parent/
-│   │   └── ParentPanel.tsx # Parent settings slide-up panel
-│   └── ui/
-│       ├── ActivitySelector.tsx
-│       └── SessionEndScreen.tsx
-├── hooks/
-│   ├── useSession.ts       # Timer + settings state
-│   └── useSound.ts         # Sound helper with enabled guard
-├── types/
-│   └── index.ts
-├── utils/
-│   └── sounds.ts           # Web Audio API synthesis + docs for real audio
-├── App.tsx
-├── main.tsx
-└── index.css
+  audio/
+    engine.ts      Web Audio: limiter, meki tonovi, šum, zajednički zvuci
+    voices.ts      glasovi životinja (sintetisani, ne snimci)
+    speech.ts      izgovor kroz sistemski sintetizator (opciono)
+    recorder.ts    mikrofon → AudioBuffer → reprodukcija sa promenom visine
+  components/
+    art/Animal.tsx  osam likova kao inline SVG (trepću, mrdaju ustima)
+    art/Pictos.tsx  dvanaest sličica — "azbuka" za decu koja ne čitaju
+    art/Icons.tsx   ikone interfejsa
+    ui/             zaglavlje, roditeljska vrata, podešavanja, pauza, start
+  screens/          pet aktivnosti
+  data/animals.ts   likovi, imena, boje
+  i18n/strings.ts   sav tekst, sr + en
+  state/settings.tsx roditeljska podešavanja (localStorage)
+  styles/global.css  paleta, ritam animacija, rasporedi
+public/
+  sw.js, manifest.webmanifest, icons/
 ```
 
----
+### Dodavanje nove životinje
 
-## Accessibility
+1. Dopuniti `AnimalId` i listu u `src/data/animals.ts` (ime, boje, scena).
+2. Nacrtati lice u `src/components/art/Animal.tsx` (viewBox 100×100) i upisati
+   ga u `FACES`.
+3. Dodati glas u `src/audio/voices.ts`.
 
-- All interactive elements have `aria-label` attributes
-- Minimum tap target size: 56×56 px (most are larger)
-- `prefers-reduced-motion` CSS media query disables all animations
-- Color is never the only indicator of state
-- `aria-live` regions announce animal sounds and match results to screen readers
+Time se lik automatski pojavljuje u Telefonu, Porukama i Skrivalicama.
 
----
+### Dodavanje nove sličice u Poruke
 
-## Future Improvements
-
-These are intentionally NOT in the current version (keeping it simple),
-but are natural next steps:
-
-| Feature | Notes |
-|---|---|
-| 🇷🇸 Serbian language | Add a language toggle. All text strings are already centralised — easy to extract to i18n. |
-| 🎙 Parent-recorded voice | Replace synthesized sounds with recordings of the child's own parent/grandparents. Warm and developmental. |
-| 📴 Offline PWA | Add a Vite PWA plugin (`vite-plugin-pwa`) to make the app installable and fully offline. |
-| 📸 Custom family photos | Let parents upload photos of family members, pets, or favourite toys as activity objects. |
-| 🌙 Dark/night mode | Dim the screen further and soften colors for evening sessions. |
-| 🌍 More scenes | Additional Picture Explorer scenes: underwater, space, bedroom, kitchen. |
-| 🎵 Lullaby mode | After the session ends, offer a gentle lullaby screen to help with nap transition. |
-| 👶 Age adjustment | A "younger/older" toggle to simplify or add complexity (e.g. more animals, harder color matches). |
+Dopuniti `PictoId`, `PICTOS` i `SHAPES` u `src/components/art/Pictos.tsx`, pa
+dodati red u `REPLIES` u `src/screens/Messages.tsx` — tako sličica dobija
+odgovor koji ima smisla, umesto nasumičnog.
 
 ---
 
-## Tech Stack
+## In English, briefly
 
-- **React 18** + **TypeScript** + **Vite**
-- Zero runtime dependencies beyond React
-- No tracking, no analytics, no external requests
-- All sounds generated via the browser's built-in **Web Audio API**
-- All visuals are pure **SVG** or **CSS** — no paid assets
+Livada is a calm, offline-first play app for toddlers aged 1.5–3: pretend phone
+calls with animals, picture messaging, a record-your-voice-and-hear-it-squeaky
+toy, six big buttons that each do something different, and peekaboo. Muted
+palette, synthesised audio behind a limiter, slow motion, no scores, no ads, no
+network. Serbian and English. Built with React + TypeScript + Vite, ships as a
+PWA and drops straight into Capacitor for the stores.

@@ -1,0 +1,20 @@
+{
+  "name": "Livada — mirna igra",
+  "short_name": "Livada",
+  "description": "Mirna igra za decu od 1,5 do 3 godine. Bez reklama, bez interneta, bez prestimulacije.",
+  "lang": "sr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#f4ece0",
+  "theme_color": "#f4ece0",
+  "categories": ["education", "kids", "entertainment"],
+  "icons": [
+    { "src": "./icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
