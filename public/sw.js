@@ -10,17 +10,35 @@
  * worse for a two-year-old than an old one.
  */
 
-const VERSION = 'livada-v1'
+const VERSION = 'livada-v2'
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png']
 
+/*
+ * The built script and stylesheet have content-hashed names, so they cannot be
+ * listed here by hand. They are also fetched by the page *before* this worker
+ * takes control, which means runtime caching alone would miss them and the
+ * first offline launch would fail. So: read index.html during install and cache
+ * whatever it points at.
+ */
+async function precache() {
+  const cache = await caches.open(VERSION)
+  await cache.addAll(SHELL).catch(() => undefined)
+  try {
+    const res = await fetch('./index.html', { cache: 'reload' })
+    const html = await res.text()
+    const urls = new Set()
+    for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+      const url = new URL(match[1], self.registration.scope)
+      if (url.origin === self.location.origin) urls.add(url.href)
+    }
+    await Promise.all([...urls].map((url) => cache.add(url).catch(() => undefined)))
+  } catch {
+    /* offline during install — runtime caching will fill the gaps later */
+  }
+}
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(VERSION)
-      .then((cache) => cache.addAll(SHELL))
-      .catch(() => undefined)
-      .then(() => self.skipWaiting()),
-  )
+  event.waitUntil(precache().then(() => self.skipWaiting()))
 })
 
 self.addEventListener('activate', (event) => {
